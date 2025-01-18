@@ -49,10 +49,6 @@ if (cluster.isMaster) {
     log: argv.log ? true : false,
     logFname: argv.log ? "VanityEth-log-" + Date.now() + ".txt" : "",
   };
-  if (!VanityEth.isValidHex(args.input)) {
-    console.error(args.input + " is not valid hexadecimal");
-    process.exit(1);
-  }
   let logStream;
   if (args.log) {
     console.log("logging into " + args.logFname);

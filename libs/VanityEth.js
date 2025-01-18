@@ -22,7 +22,12 @@ var isValidVanityWallet = function (wallet, input, isChecksum, isContract) {
       ? ethUtils.toChecksumAddress(_contractAdd)
       : _contractAdd;
     wallet.contract = _contractAdd;
-    return _contractAdd.substr(2, input.length) == input;
+    let start = input.split('.')[0];
+    let end = '';
+    if (input.split('.').length > 1) {
+      end = input.split('.')[1];
+    }
+    return _contractAdd.substr(2, start.length) == start && _contractAdd.substr(-end.length) == end;
   }
   _add = isChecksum ? ethUtils.toChecksumAddress(_add) : _add;
   return _add.substr(2, input.length) == input;
@@ -33,7 +38,7 @@ var getVanityWallet = function (
   isContract = false,
   counter = function () {}
 ) {
-  if (!isValidHex(input)) throw new Error(ERRORS.invalidHex);
+
   input = isChecksum ? input : input.toLowerCase();
   var _wallet = getRandomWallet();
   while (!isValidVanityWallet(_wallet, input, isChecksum, isContract)) {
